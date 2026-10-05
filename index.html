@@ -1,0 +1,317 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Daily Trading Plan + Journal</title>
+<style>
+:root{
+  --bg:#080b10; --panel:#10151d; --panel2:#151b24; --border:#26303d; --text:#f5f7fa;
+  --muted:#96a2b2; --blue:#4aa3ff; --green:#2fd17b; --red:#ff5b6b; --orange:#f4a340;
+  --shadow:0 12px 40px rgba(0,0,0,.25); --radius:18px;
+}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at top right,#0e1a2b 0,#080b10 38%,#06080c 100%);color:var(--text);font-family:Arial,"Noto Sans Hebrew",sans-serif;line-height:1.5}
+button,input,select,textarea{font:inherit}.app{max-width:1250px;margin:auto;padding:24px}.topbar{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;margin-bottom:18px}.eyebrow{font-size:12px;letter-spacing:.16em;color:var(--blue);font-weight:800}.title{font-size:34px;margin:4px 0 2px}.subtitle{color:var(--muted);margin:0}.clock{background:rgba(74,163,255,.09);border:1px solid rgba(74,163,255,.25);padding:12px 16px;border-radius:14px;text-align:left;direction:ltr}.clock strong{display:block;font-size:18px}.grid{display:grid;gap:16px}.grid-4{grid-template-columns:repeat(4,1fr)}.grid-3{grid-template-columns:repeat(3,1fr)}.grid-2{grid-template-columns:repeat(2,1fr)}.card{background:linear-gradient(180deg,rgba(21,27,36,.96),rgba(14,19,26,.96));border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px}.card h2,.card h3{margin:0 0 12px}.field{display:flex;flex-direction:column;gap:7px}.field label{font-size:13px;color:#c7d0dc;font-weight:700}.field input,.field select,.field textarea{width:100%;background:#0b1017;color:var(--text);border:1px solid #2d3948;border-radius:12px;padding:11px 12px;outline:none}.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(74,163,255,.1)}.field textarea{min-height:88px;resize:vertical}.small{font-size:12px;color:var(--muted)}
+.progress{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin:16px 0 20px}.step{padding:10px 8px;border-radius:12px;background:#0b1017;border:1px solid var(--border);text-align:center;color:var(--muted);font-size:13px}.step.done{border-color:rgba(47,209,123,.4);color:#bdf4d4;background:rgba(47,209,123,.08)}.step.invalid{border-color:rgba(255,91,107,.45);color:#ffc3ca;background:rgba(255,91,107,.08)}
+.timeline{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.quarter{padding:13px;border:1px solid var(--border);border-radius:14px;background:#0b1017;position:relative}.quarter.active{border-color:var(--blue);box-shadow:inset 0 0 0 1px var(--blue);background:rgba(74,163,255,.09)}.quarter .q{font-weight:900}.quarter .time{font-size:12px;color:var(--muted);direction:ltr}.quarter .desc{font-size:13px;margin-top:4px}.now{position:absolute;top:8px;left:8px;font-size:10px;padding:2px 7px;border-radius:30px;background:var(--blue);color:white;font-weight:800}
+.section-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px}.badge{font-size:12px;padding:5px 9px;border-radius:999px;border:1px solid var(--border);color:var(--muted)}.badge.green{color:#bdf4d4;border-color:rgba(47,209,123,.4);background:rgba(47,209,123,.08)}.badge.orange{color:#ffd7a5;border-color:rgba(244,163,64,.4);background:rgba(244,163,64,.08)}.badge.red{color:#ffc3ca;border-color:rgba(255,91,107,.4);background:rgba(255,91,107,.08)}
+.checks{display:grid;grid-template-columns:repeat(2,1fr);gap:8px}.check{display:flex;align-items:center;gap:9px;background:#0b1017;border:1px solid var(--border);padding:10px;border-radius:12px}.check input{width:18px;height:18px;accent-color:var(--blue)}.seg{display:flex;gap:8px;flex-wrap:wrap}.seg label{cursor:pointer}.seg input{display:none}.seg span{display:inline-block;border:1px solid var(--border);background:#0b1017;color:var(--muted);padding:9px 14px;border-radius:10px}.seg input:checked+span{border-color:var(--blue);color:white;background:rgba(74,163,255,.12)}
+.statusbox{padding:18px;border-radius:16px;border:1px solid var(--border);background:#0b1017}.statusbox.valid{border-color:rgba(47,209,123,.55);background:rgba(47,209,123,.08)}.statusbox.wait{border-color:rgba(244,163,64,.55);background:rgba(244,163,64,.08)}.statusbox.invalid{border-color:rgba(255,91,107,.55);background:rgba(255,91,107,.08)}.status-title{font-size:24px;font-weight:900}.missing{margin:8px 0 0;padding-right:18px;color:#d5dbe3}.summary{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.metric{background:#0b1017;border:1px solid var(--border);border-radius:12px;padding:12px}.metric span{display:block;font-size:11px;color:var(--muted)}.metric strong{font-size:16px}.actions{display:flex;gap:10px;flex-wrap:wrap;position:sticky;bottom:12px;background:rgba(8,11,16,.85);backdrop-filter:blur(12px);padding:12px;border:1px solid var(--border);border-radius:16px;margin-top:18px}.btn{border:0;border-radius:12px;padding:11px 16px;font-weight:800;cursor:pointer}.btn.primary{background:var(--blue);color:white}.btn.secondary{background:#202936;color:white}.btn.danger{background:rgba(255,91,107,.15);color:#ffb6be;border:1px solid rgba(255,91,107,.35)}.btn.success{background:rgba(47,209,123,.15);color:#bdf4d4;border:1px solid rgba(47,209,123,.35)}.locked{opacity:.65;pointer-events:none}.lock-banner{display:none;padding:10px 14px;margin-bottom:14px;border-radius:12px;border:1px solid rgba(244,163,64,.4);background:rgba(244,163,64,.08);color:#ffd7a5;font-weight:800}.lock-banner.show{display:block}.divider{height:1px;background:var(--border);margin:16px 0}.hint{border-right:3px solid var(--blue);padding:9px 12px;background:rgba(74,163,255,.07);border-radius:9px;color:#ccd5e0;font-size:13px}.danger-hint{border-right-color:var(--red);background:rgba(255,91,107,.07)}
+
+.view-tabs{display:flex;gap:8px;margin:0 0 16px;background:rgba(16,21,29,.8);border:1px solid var(--border);border-radius:14px;padding:6px;position:sticky;top:8px;z-index:20;backdrop-filter:blur(14px)}
+.view-tab{flex:0 0 auto;border:0;background:transparent;color:var(--muted);font-weight:900;padding:10px 16px;border-radius:10px;cursor:pointer}.view-tab.active{background:rgba(74,163,255,.14);color:white;box-shadow:inset 0 0 0 1px rgba(74,163,255,.35)}
+.view{display:none}.view.active{display:block}.journal-toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;margin-bottom:16px}.month-nav{display:flex;align-items:center;gap:8px}.icon-btn{border:1px solid var(--border);background:#0b1017;color:white;border-radius:10px;padding:8px 11px;cursor:pointer;font-weight:900}.month-title{font-size:22px;font-weight:900;min-width:170px;text-align:center}
+.journal-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:16px}.journal-calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px}.weekday{font-size:12px;color:var(--muted);font-weight:800;text-align:center;padding:5px}.calendar-day{min-height:112px;background:#0b1017;border:1px solid var(--border);border-radius:13px;padding:9px;overflow:hidden;cursor:pointer;transition:.15s ease}.calendar-day:hover{border-color:#3e5066;transform:translateY(-1px)}.calendar-day.empty{background:transparent;border-style:dashed;opacity:.35;cursor:default}.calendar-day.today{box-shadow:inset 0 0 0 1px var(--blue);border-color:var(--blue)}.calendar-day.has-entry{background:linear-gradient(180deg,rgba(74,163,255,.055),#0b1017)}.day-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}.day-num{font-weight:900}.entry-count{font-size:10px;color:var(--muted)}.journal-chip{display:flex;align-items:center;gap:6px;border-radius:8px;padding:5px 7px;margin-top:5px;font-size:11px;font-weight:800;background:#151c26;border:1px solid #263342;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.journal-chip.valid{border-color:rgba(47,209,123,.38);color:#bdf4d4}.journal-chip.wait{border-color:rgba(244,163,64,.38);color:#ffd7a5}.journal-chip.invalid{border-color:rgba(255,91,107,.38);color:#ffc3ca}.journal-chip.locked{opacity:1;pointer-events:auto;border-color:rgba(74,163,255,.35);color:#b9ddff}.journal-chip.saved{color:#d5dbe3}.status-dot{width:7px;height:7px;border-radius:50%;background:currentColor;flex:0 0 auto}.more-entries{font-size:10px;color:var(--muted);margin-top:5px}.journal-layout{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,.75fr);gap:16px}.journal-detail{position:sticky;top:78px;align-self:start;max-height:calc(100vh - 98px);overflow:auto}.journal-empty{text-align:center;color:var(--muted);padding:30px 10px}.diary-record{background:#0b1017;border:1px solid var(--border);border-radius:14px;padding:13px;margin-top:10px}.diary-record-head{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}.diary-record h4{margin:0}.diary-meta{font-size:12px;color:var(--muted)}.diary-text{white-space:pre-wrap;background:#111822;border-radius:10px;padding:9px 10px;margin-top:8px;color:#d9e0e8;font-size:13px}.detail-actions{display:flex;gap:7px;flex-wrap:wrap;margin-top:10px}.mini-btn{border:1px solid var(--border);background:#182230;color:white;border-radius:9px;padding:7px 10px;font-size:12px;font-weight:800;cursor:pointer}.journal-save-row{display:flex;justify-content:flex-end;margin-top:12px}.save-note{font-size:12px;color:var(--green);margin-inline-start:10px;align-self:center}.tab-count{display:inline-flex;min-width:20px;height:20px;align-items:center;justify-content:center;border-radius:999px;background:#202b39;color:#dbe8f5;font-size:11px;margin-inline-start:5px}
+@media(max-width:1000px){.journal-layout{grid-template-columns:1fr}.journal-detail{position:static;max-height:none}.journal-stats{grid-template-columns:1fr 1fr}}
+@media(max-width:700px){.journal-calendar{gap:4px}.calendar-day{min-height:78px;padding:6px}.journal-chip{font-size:9px;padding:4px}.entry-count{display:none}.weekday{font-size:10px;padding:2px}.month-title{font-size:18px;min-width:130px}.journal-toolbar{align-items:flex-start;flex-direction:column}.view-tabs{top:4px}}
+@media(max-width:900px){.grid-4,.grid-3,.grid-2,.summary{grid-template-columns:1fr 1fr}.topbar{flex-direction:column}.clock{width:100%;text-align:right}.progress{grid-template-columns:1fr}.timeline{grid-template-columns:1fr 1fr}}
+@media(max-width:600px){.app{padding:14px}.grid-4,.grid-3,.grid-2,.summary,.checks,.timeline{grid-template-columns:1fr}.title{font-size:27px}.card{padding:14px}.actions{bottom:6px}.btn{flex:1}.section-head{align-items:flex-start;flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="app">
+  <div class="topbar">
+    <div>
+      <div class="eyebrow">TRADING DISCIPLINE SYSTEM</div>
+      <h1 class="title">תוכנית מסחר יומית</h1>
+      <p class="subtitle">Plan first. Trade second.</p>
+    </div>
+    <div class="clock"><span class="small">Israel Time</span><strong id="clock">--:--:--</strong><span id="today" class="small"></span></div>
+  </div>
+
+  <div class="view-tabs" aria-label="ניווט ראשי">
+    <button class="view-tab active" id="planTab" data-view="plan">תוכנית יומית</button>
+    <button class="view-tab" id="journalTab" data-view="journal">יומן מעקב <span class="tab-count" id="journalCount">0</span></button>
+  </div>
+
+  <div id="planView" class="view active">
+  <div id="lockBanner" class="lock-banner">🔒 התוכנית נעולה. נשמר Snapshot של התוכנית המקורית.</div>
+
+  <div class="card">
+    <div class="grid grid-4">
+      <div class="field"><label>תאריך</label><input id="date" type="date"></div>
+      <div class="field"><label>חשבון</label><input id="account" placeholder="למשל 50K-01"></div>
+      <div class="field"><label>נכס</label><select id="asset"><option>NQ</option><option>ES</option><option>YM</option><option>GC</option></select></div>
+      <div class="field"><label>מצב מנטלי לפני מסחר (1–5)</label><select id="mental"><option value="">בחר</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+    </div>
+    <div class="grid grid-2" style="margin-top:14px">
+      <div class="field"><label>מה המטרה שלי היום?</label><textarea id="goal"></textarea></div>
+      <div class="field"><label>ממה אני חייב להימנע היום?</label><textarea id="avoid"></textarea></div>
+    </div>
+  </div>
+
+  <div class="progress" id="progress">
+    <div class="step" data-step="1">1 · HTF</div><div class="step" data-step="2">2 · Pricing</div><div class="step" data-step="3">3 · SMT</div><div class="step" data-step="4">4 · Manipulation</div><div class="step" data-step="5">5 · Entry</div>
+  </div>
+
+  <div class="grid grid-2">
+    <div class="card">
+      <div class="section-head"><h3>סייקל 6 שעות</h3><span id="cycle6Status" class="badge"></span></div>
+      <div class="timeline" id="cycle6">
+        <div class="quarter" data-q6="Q1"><div class="q">Q1 · Asia</div><div class="time">01:00–07:00</div><div class="desc">דשדוש / צבירה</div></div>
+        <div class="quarter" data-q6="Q2"><div class="q">Q2 · London</div><div class="time">07:00–13:00</div><div class="desc">מניפולציה / True Day</div></div>
+        <div class="quarter" data-q6="Q3"><div class="q">Q3 · NY AM</div><div class="time">13:00–19:00</div><div class="desc">סשן מסחר ראשי</div></div>
+        <div class="quarter" data-q6="Q4"><div class="q">Q4 · NY PM</div><div class="time">19:00–01:00</div><div class="desc">המשכיות / תיקון</div></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="section-head"><h3>סייקל 90 דקות · AM NY</h3><span id="cycle90Status" class="badge"></span></div>
+      <div class="timeline" id="cycle90">
+        <div class="quarter" data-q90="Q1"><div class="q">Q1</div><div class="time">13:00–14:30</div><div class="desc">צבירה שקטה</div></div>
+        <div class="quarter" data-q90="Q2"><div class="q">Q2</div><div class="time">14:30–16:00</div><div class="desc">מניפולציה מוקדמת</div></div>
+        <div class="quarter" data-q90="Q3"><div class="q">Q3</div><div class="time">16:00–17:30</div><div class="desc">הפצה / הגל האמיתי</div></div>
+        <div class="quarter" data-q90="Q4"><div class="q">Q4</div><div class="time">17:30–19:00</div><div class="desc">מימוש / תיקון</div></div>
+      </div>
+    </div>
+  </div>
+
+  <div id="formArea">
+    <div class="card" style="margin-top:16px" data-section="1">
+      <div class="section-head"><h2>1. ניתוח על־זמני · H4</h2><span id="s1badge" class="badge">ממתין</span></div>
+      <div class="grid grid-2">
+        <div class="field"><label>Quarter חודשי</label><select id="monthQ"><option value="">בחר</option><option>Q1</option><option>Q2</option><option>Q3</option><option>Q4</option></select></div>
+        <div class="field"><label>שבוע בחודש</label><select id="weekQ"><option value="">בחר</option><option>Week 1 (Q1)</option><option>Week 2 (Q2)</option><option>Week 3 (Q3)</option><option>Week 4 (Q4)</option></select></div>
+      </div>
+      <div class="checks" style="margin-top:12px">
+        <label class="check"><input id="nwog" type="checkbox"> סימנתי NWOG / FVG פתוחים</label>
+        <label class="check"><input id="pwh" type="checkbox"> סימנתי Previous Week High</label>
+        <label class="check"><input id="pwl" type="checkbox"> סימנתי Previous Week Low</label>
+        <label class="check"><input id="htfCompare" type="checkbox"> השוויתי YM / ES / NQ</label>
+      </div>
+      <div class="field" style="margin-top:14px"><label>HTF SMT</label><div class="seg">
+        <label><input name="htfSmt" value="Bullish" type="radio"><span>Bullish SMT</span></label>
+        <label><input name="htfSmt" value="Bearish" type="radio"><span>Bearish SMT</span></label>
+        <label><input name="htfSmt" value="None" type="radio"><span>אין SMT</span></label>
+      </div></div>
+      <div class="field" style="margin-top:14px"><label>מה הסיפור שה־HTF מספר לי?</label><textarea id="htfStory" placeholder="כתוב את ההיגיון לפני שאתה ממשיך..."></textarea></div>
+    </div>
+
+    <div class="card" style="margin-top:16px" data-section="2">
+      <div class="section-head"><h2>2. תמחור אלגוריתמי ונזילות יומית · H1</h2><span id="s2badge" class="badge">ממתין</span></div>
+      <div class="grid grid-3">
+        <div class="field"><label>True Week Open</label><input id="two" inputmode="decimal" placeholder="מחיר"></div>
+        <div class="field"><label>True Day Open</label><input id="tdo" inputmode="decimal" placeholder="מחיר"></div>
+        <div class="field"><label>Current Price</label><input id="currentPrice" inputmode="decimal" placeholder="מחיר"></div>
+      </div>
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="metric"><span>Pricing</span><strong id="pricingAuto">—</strong></div>
+        <div class="metric"><span>Bias לפי Pricing</span><strong id="pricingBias">—</strong></div>
+        <div class="field"><label>Daily Bias</label><select id="dailyBias"><option value="">בחר</option><option value="Long">Long</option><option value="Short">Short</option><option value="Neutral">Neutral / No Trade</option></select></div>
+      </div>
+      <div class="checks" style="margin-top:12px">
+        <label class="check"><input id="pdh" type="checkbox"> Previous Day High</label><label class="check"><input id="pdl" type="checkbox"> Previous Day Low</label>
+        <label class="check"><input id="asiaHL" type="checkbox"> Asia High / Low</label><label class="check"><input id="londonHL" type="checkbox"> London High / Low</label>
+      </div>
+      <div class="field" style="margin-top:14px"><label>למה זה ה־Bias שלי?</label><textarea id="biasReason"></textarea></div>
+    </div>
+
+    <div class="card" style="margin-top:16px" data-section="3">
+      <div class="section-head"><h2>3. SMT ראשון · M15</h2><span id="s3badge" class="badge">ממתין</span></div>
+      <div class="checks">
+        <label class="check"><input id="tripleAssets" type="checkbox"> NQ / ES / YM מוצגים במקביל</label>
+        <label class="check"><input id="londonSweepCheck" type="checkbox"> בדקתי אם London ניקה את Asia</label>
+        <label class="check"><input id="dailyLiquidityCheck" type="checkbox"> בדקתי PDH / PDL</label>
+      </div>
+      <div class="grid grid-2" style="margin-top:14px">
+        <div class="field"><label>SMT #1</label><select id="smt1"><option value="">בחר</option><option value="Bullish">Bullish</option><option value="Bearish">Bearish</option><option value="Hidden Bullish">Hidden SMT · Bullish</option><option value="Hidden Bearish">Hidden SMT · Bearish</option><option value="SSMT Bullish">SSMT · Bullish</option><option value="SSMT Bearish">SSMT · Bearish</option><option value="SMT Fill Bullish">SMT Fill · Bullish</option><option value="SMT Fill Bearish">SMT Fill · Bearish</option><option value="PSP Bullish">PSP · Bullish</option><option value="PSP Bearish">PSP · Bearish</option><option value="None">אין SMT</option></select></div>
+        <div class="field"><label>איפה הופיע ה־SMT?</label><input id="smt1Location" placeholder="לדוגמה: Asia High / PDH"></div>
+      </div>
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="field"><label>איזו נזילות נלקחה?</label><input id="liquidityTaken" placeholder="כתוב בקצרה"></div>
+        <div class="field"><label>Target</label><select id="target"><option value="">בחר</option><option>Previous High</option><option>Previous Low</option><option>Session High</option><option>Session Low</option><option>Opposing FVG</option><option>Custom</option></select></div>
+        <div class="field"><label>מחיר יעד</label><input id="targetPrice" inputmode="decimal" placeholder="מחיר"></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px" data-section="4">
+      <div class="section-head"><h2>4. Manipulation + Double SMT · M5</h2><span id="s4badge" class="badge">ממתין</span></div>
+      <div class="hint danger-hint">לא מחפשים כניסה לפני הופעת מניפולציה ואישור SMT נוסף באותו כיוון.</div>
+      <div class="checks" style="margin-top:12px">
+        <label class="check"><input id="windowConfirm" type="checkbox"> אני בתוך חלון Q2 / Q3</label>
+        <label class="check"><input id="manipulation" type="checkbox"> זוהתה Manipulation</label>
+        <label class="check"><input id="soupTurtle" type="checkbox"> זוהה Soup Turtle / Sweep</label>
+      </div>
+      <div class="grid grid-2" style="margin-top:14px">
+        <div class="field"><label>SMT #2</label><select id="smt2"><option value="">בחר</option><option value="Bullish">Bullish</option><option value="Bearish">Bearish</option><option value="None">אין SMT</option></select></div>
+        <div class="metric"><span>Double SMT</span><strong id="doubleSmt">—</strong></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px" data-section="5">
+      <div class="section-head"><h2>5. טריגר כניסה וניהול סיכונים · M1 / 15s</h2><span id="s5badge" class="badge">ממתין</span></div>
+      <div class="checks">
+        <label class="check"><input id="liquiditySweep" type="checkbox"> Liquidity Sweep</label>
+        <label class="check"><input id="ifvg" type="checkbox"> IFVG קיים</label>
+        <label class="check"><input id="ifvgClosed" type="checkbox"> IFVG נסגר בכיוון החדש</label>
+        <label class="check"><input id="mss" type="checkbox"> Market Structure Shift</label>
+      </div>
+      <div class="grid grid-4" style="margin-top:14px">
+        <div class="field"><label>Entry Price</label><input id="entryPrice" inputmode="decimal"></div>
+        <div class="field"><label>Stop Loss</label><input id="stopLoss" inputmode="decimal"></div>
+        <div class="field"><label>Take Profit</label><input id="takeProfit" inputmode="decimal"></div>
+        <div class="field"><label>Risk $</label><input id="riskDollar" inputmode="decimal"></div>
+      </div>
+      <div class="grid grid-3" style="margin-top:12px">
+        <div class="field"><label>Reward $</label><input id="rewardDollar" inputmode="decimal"></div>
+        <div class="metric"><span>Risk : Reward</span><strong id="rr">—</strong></div>
+        <div class="field"><label>Entry Type</label><select id="entryType"><option value="">בחר</option><option>Limit</option><option>Market</option></select></div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="section-head"><h2>חוקי ברזל</h2><span class="badge red">חובה</span></div>
+      <div class="checks">
+        <label class="check"><input id="rule1" type="checkbox"> אין Double SMT → אין עסקה</label>
+        <label class="check"><input id="rule2" type="checkbox"> אני לא נכנס בנר הראשון</label>
+        <label class="check"><input id="rule3" type="checkbox"> אין כניסה מחוץ ל־Q2 / Q3</label>
+        <label class="check"><input id="rule4" type="checkbox"> אין דילוגי Timeframe גדולים</label>
+        <label class="check"><input id="rule5" type="checkbox"> Short רק ב־Premium</label>
+        <label class="check"><input id="rule6" type="checkbox"> Long רק ב־Discount</label>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <div class="section-head"><h2>Validation Engine</h2><span id="validationBadge" class="badge">בודק...</span></div>
+      <div id="validationBox" class="statusbox"><div class="status-title" id="validationTitle">ממתין לנתונים</div><div class="small" id="validationSubtitle">המערכת תציג כאן האם מותר לחפש כניסה.</div><ul class="missing" id="missingList"></ul></div>
+    </div>
+
+    <div class="card" style="margin-top:16px">
+      <h2>תוכנית המסחר שלי להיום</h2>
+      <div class="summary" id="summary"></div>
+      <div class="grid grid-2" style="margin-top:14px">
+        <div class="field"><label>התרחיש שלי</label><textarea id="scenario" placeholder="אם המחיר ___ ולאחר מכן ___, אחפש ___ לכיוון ___."></textarea></div>
+        <div class="field"><label>מה יבטל את התוכנית שלי?</label><textarea id="invalidation"></textarea></div>
+      </div>
+      <div class="divider"></div>
+      <div class="field"><label>NO TRADE · סיבה</label><select id="noTradeReason"><option value="">לא נבחר</option><option>אין Setup</option><option>אין SMT</option><option>מחוץ לחלון זמן</option><option>שוק לא ברור</option><option>מצב מנטלי לא מתאים</option><option>הגעתי למגבלת ההפסד</option><option>אחר</option></select></div>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:16px" id="endDayJournalCard">
+    <div class="section-head"><h2>יומן סוף יום</h2><span class="badge">נשמר ביומן המעקב</span></div>
+    <div class="hint">החלק הזה נשאר פתוח גם אחרי נעילת תוכנית המסחר, כדי שתוכל לתעד בסוף היום מה קרה בפועל בלי לשנות את התוכנית המקורית.</div>
+    <div class="grid grid-3" style="margin-top:14px">
+      <div class="field"><label>תוצאת היום</label><select id="dayOutcome"><option value="">בחר</option><option>רווח</option><option>הפסד</option><option>Break Even</option><option>No Trade</option></select></div>
+      <div class="field"><label>P&amp;L יומי ($)</label><input id="dayPnl" inputmode="decimal" placeholder="לדוגמה 250 או -120"></div>
+      <div class="field"><label>ציון משמעת (1–5)</label><select id="disciplineScore"><option value="">בחר</option><option>1</option><option>2</option><option>3</option><option>4</option><option>5</option></select></div>
+    </div>
+    <div class="grid grid-2" style="margin-top:12px">
+      <div class="field"><label>סיכום היום · מה קרה בפועל?</label><textarea id="journalReflection" placeholder="מה עשיתי טוב, איפה חרגתי, מה הרגשתי בזמן המסחר..."></textarea></div>
+      <div class="field"><label>לקח מרכזי למחר</label><textarea id="journalLesson" placeholder="משפט אחד או שניים שאני לוקח ליום הבא."></textarea></div>
+    </div>
+    <div class="journal-save-row"><button class="btn secondary" id="journalSaveBtn">שמור סיכום ביומן</button><span id="journalSavedNote" class="save-note"></span></div>
+  </div>
+
+  <div class="actions">
+    <button class="btn primary" id="saveBtn">שמור תוכנית</button>
+    <button class="btn success" id="lockBtn">🔒 נעל תוכנית</button>
+    <button class="btn danger" id="noTradeBtn">היום אני לא סוחר</button>
+    <button class="btn secondary" id="resetBtn">תוכנית חדשה / איפוס</button>
+  </div>
+  </div>
+
+  <div id="journalView" class="view">
+    <div class="journal-toolbar">
+      <div>
+        <div class="eyebrow">DAILY TRACKING JOURNAL</div>
+        <h2 style="margin:4px 0 0">יומן מעקב מסחר</h2>
+        <div class="small">כל יום שנשמר מופיע אוטומטית ביומן. לחץ על יום כדי לפתוח את הסיכום שלו.</div>
+      </div>
+      <div class="month-nav">
+        <button class="icon-btn" id="nextMonthBtn" title="חודש הבא">›</button>
+        <div class="month-title" id="journalMonthTitle"></div>
+        <button class="icon-btn" id="prevMonthBtn" title="חודש קודם">‹</button>
+        <button class="icon-btn" id="todayMonthBtn">היום</button>
+      </div>
+    </div>
+
+    <div class="journal-stats" id="journalStats"></div>
+
+    <div class="journal-layout">
+      <div class="card">
+        <div class="journal-calendar" id="journalWeekdays"></div>
+        <div class="journal-calendar" id="journalCalendar"></div>
+      </div>
+      <div class="card journal-detail" id="journalDetail">
+        <div class="journal-empty">בחר יום ביומן כדי לראות את התוכניות והסיכום היומי שלו.</div>
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+const ids = ["date","account","asset","mental","goal","avoid","monthQ","weekQ","nwog","pwh","pwl","htfCompare","htfStory","two","tdo","currentPrice","dailyBias","pdh","pdl","asiaHL","londonHL","biasReason","tripleAssets","londonSweepCheck","dailyLiquidityCheck","smt1","smt1Location","liquidityTaken","target","targetPrice","windowConfirm","manipulation","soupTurtle","smt2","liquiditySweep","ifvg","ifvgClosed","mss","entryPrice","stopLoss","takeProfit","riskDollar","rewardDollar","entryType","rule1","rule2","rule3","rule4","rule5","rule6","scenario","invalidation","noTradeReason","dayOutcome","dayPnl","disciplineScore","journalReflection","journalLesson"];
+const $=id=>document.getElementById(id);
+let locked=false;
+let journalMonth=null;
+let selectedJournalDate='';
+function israelParts(){const parts=new Intl.DateTimeFormat('en-GB',{timeZone:'Asia/Jerusalem',year:'numeric',month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit',second:'2-digit',hour12:false}).formatToParts(new Date());return Object.fromEntries(parts.map(p=>[p.type,p.value]));}
+function israelMinutes(){const p=israelParts();return (+p.hour%24)*60 + +p.minute}
+function isoIsraelDate(){const p=israelParts();return `${p.year}-${p.month}-${p.day}`}
+function setClock(){const p=israelParts();$('clock').textContent=`${p.hour}:${p.minute}:${p.second}`;$('today').textContent=`${p.day}/${p.month}/${p.year}`;updateCycles();}
+function currentQ6(m){if(m>=60&&m<420)return 'Q1';if(m>=420&&m<780)return 'Q2';if(m>=780&&m<1140)return 'Q3';return 'Q4'}
+function currentQ90(m){if(m>=780&&m<870)return 'Q1';if(m>=870&&m<960)return 'Q2';if(m>=960&&m<1050)return 'Q3';if(m>=1050&&m<1140)return 'Q4';return null}
+function updateCycles(){const m=israelMinutes(), q6=currentQ6(m),q90=currentQ90(m);document.querySelectorAll('[data-q6]').forEach(x=>{x.classList.toggle('active',x.dataset.q6===q6);x.querySelector('.now')?.remove();if(x.dataset.q6===q6){const n=document.createElement('span');n.className='now';n.textContent='NOW';x.appendChild(n)}});document.querySelectorAll('[data-q90]').forEach(x=>{x.classList.toggle('active',x.dataset.q90===q90);x.querySelector('.now')?.remove();if(x.dataset.q90===q90){const n=document.createElement('span');n.className='now';n.textContent='NOW';x.appendChild(n)}});$('cycle6Status').textContent=q6;$('cycle6Status').className='badge green';if(q90){$('cycle90Status').textContent=`${q90} פעיל`;$('cycle90Status').className='badge '+((q90==='Q2'||q90==='Q3')?'green':'orange')}else{$('cycle90Status').textContent='מחוץ לסשן';$('cycle90Status').className='badge red'};validate();}
+function radio(name){return document.querySelector(`input[name="${name}"]:checked`)?.value||''}
+function smtDir(v){if(!v||v==='None')return '';return v.includes('Bearish')?'Bearish':'Bullish'}
+function pricing(){const t=parseFloat($('tdo').value), c=parseFloat($('currentPrice').value);if(!isFinite(t)||!isFinite(c))return {pricing:'—',bias:'—'};if(c>t)return {pricing:'Premium',bias:'Short'};if(c<t)return {pricing:'Discount',bias:'Long'};return {pricing:'At Open',bias:'Neutral'}}
+function updatePricing(){const p=pricing();$('pricingAuto').textContent=p.pricing;$('pricingBias').textContent=p.bias}
+function updateRR(){const r=parseFloat($('riskDollar').value),rw=parseFloat($('rewardDollar').value);$('rr').textContent=isFinite(r)&&r>0&&isFinite(rw)?`1 : ${(rw/r).toFixed(2)}`:'—'}
+function sectionComplete(n){if(n===1)return !!($('monthQ').value&&$('weekQ').value&&radio('htfSmt')&&$('htfStory').value.trim());if(n===2)return !!($('tdo').value&&$('currentPrice').value&&$('dailyBias').value&&$('biasReason').value.trim());if(n===3)return !!($('smt1').value&&$('smt1').value!=='None'&&$('target').value&&$('targetPrice').value);if(n===4)return !!($('manipulation').checked&&$('smt2').value&&$('smt2').value!=='None');if(n===5)return !!($('ifvg').checked&&$('ifvgClosed').checked&&$('entryPrice').value&&$('stopLoss').value&&$('takeProfit').value&&$('riskDollar').value);return false}
+function setSectionStatus(){for(let i=1;i<=5;i++){const done=sectionComplete(i);const b=$(`s${i}badge`);b.textContent=done?'הושלם':'חסר';b.className='badge '+(done?'green':'orange');const st=document.querySelector(`.step[data-step="${i}"]`);st.className='step '+(done?'done':'')}}
+function validate(){updatePricing();updateRR();setSectionStatus();const missing=[],hard=[];const smt1=smtDir($('smt1').value),smt2=smtDir($('smt2').value);const p=pricing(),bias=$('dailyBias').value;const q90=currentQ90(israelMinutes());const liveWindow=(q90==='Q2'||q90==='Q3');
+ if(!smt1) hard.push('חסר SMT #1');if(!smt2) hard.push('חסר SMT #2');if(smt1&&smt2&&smt1!==smt2)hard.push('SMT #1 ו־SMT #2 אינם באותו כיוון');
+ $('doubleSmt').textContent=(smt1&&smt2&&smt1===smt2)?`${smt1} · CONFIRMED`:(smt1&&smt2?'כיוונים שונים':'—');
+ if(!$('manipulation').checked)missing.push('עדיין לא אושרה Manipulation');if(!$('ifvg').checked||!$('ifvgClosed').checked)missing.push('חסר IFVG מאושר');if(!$('stopLoss').value)hard.push('לא הוגדר Stop Loss');if(!$('target').value||!$('targetPrice').value)hard.push('לא הוגדר Target');
+ if(bias==='Short'&&p.pricing==='Discount')hard.push('Short ב־Discount מנוגד לכלל התמחור');if(bias==='Long'&&p.pricing==='Premium')hard.push('Long ב־Premium מנוגד לכלל התמחור');if(bias==='Neutral')hard.push('Daily Bias מוגדר No Trade');
+ if(!liveWindow)missing.push('כרגע מחוץ לחלון Q2/Q3 של סייקל 90 הדקות');if(!$('windowConfirm').checked)missing.push('לא אושר ידנית חלון Q2/Q3');
+ const rules=['rule1','rule2','rule3','rule4','rule5','rule6'];const unchecked=rules.filter(id=>!$(id).checked).length;if(unchecked)missing.push(`לא אושרו ${unchecked} מחוקי הברזל`);
+ const box=$('validationBox'),title=$('validationTitle'),sub=$('validationSubtitle'),list=$('missingList'),badge=$('validationBadge');list.innerHTML='';[...hard,...missing].forEach(x=>{const li=document.createElement('li');li.textContent=x;list.appendChild(li)});
+ let status;if($('noTradeReason').value){status='NO TRADE';box.className='statusbox invalid';title.textContent='🔴 NO TRADE';sub.textContent=`נבחרה סיבת No Trade: ${$('noTradeReason').value}`;badge.textContent='NO TRADE';badge.className='badge red'}else if(hard.length){status='INVALID';box.className='statusbox invalid';title.textContent='🔴 NO TRADE';sub.textContent='יש תנאי פסילה שחייב להיפתר לפני כניסה.';badge.textContent='INVALID';badge.className='badge red'}else if(missing.length){status='WAIT';box.className='statusbox wait';title.textContent='🟠 WAIT';sub.textContent='הרעיון עדיין לא בשל. המתן לתנאים החסרים.';badge.textContent='WAIT';badge.className='badge orange'}else{status='VALID';box.className='statusbox valid';title.textContent='🟢 SETUP VALID';sub.textContent='כל התנאים שהוגדרו במערכת מתקיימים. זה אישור לחפש כניסה — לא חובה להיכנס.';badge.textContent='VALID';badge.className='badge green'}
+ updateSummary(status);return status}
+function updateSummary(status){const p=pricing(), smt1=smtDir($('smt1').value),smt2=smtDir($('smt2').value),r=parseFloat($('riskDollar').value),rw=parseFloat($('rewardDollar').value);const rr=isFinite(r)&&r>0&&isFinite(rw)?`1:${(rw/r).toFixed(2)}`:'—';const data=[['Asset',$('asset').value],['Bias',$('dailyBias').value||'—'],['Pricing',p.pricing],['HTF SMT',radio('htfSmt')||'—'],['M15 SMT',smt1||'—'],['M5 SMT',smt2||'—'],['Target',$('target').value||'—'],['Entry Model',$('ifvg').checked?'IFVG':'—'],['Risk',$('riskDollar').value?`$${$('riskDollar').value}`:'—'],['R:R',rr],['Status',status]];$('summary').innerHTML=data.map(([a,b])=>`<div class="metric"><span>${a}</span><strong>${b}</strong></div>`).join('')}
+function snapshot(){const o={locked,htfSmt:radio('htfSmt')};ids.forEach(id=>{const el=$(id);o[id]=el.type==='checkbox'?el.checked:el.value});return o}
+function key(){return `trading-plan:${$('date').value||isoIsraelDate()}:${$('account').value||'default'}:${$('asset').value}`}
+function statusClass(status){const s=(status||'').toUpperCase();if(s==='VALID')return 'valid';if(s==='WAIT')return 'wait';if(s==='INVALID'||s==='NO TRADE')return 'invalid';if(s==='LOCKED')return 'locked';return 'saved'}
+function save(){const status=validate();const data=snapshot();data.statusAtSave=status;data.savedAt=new Date().toISOString();localStorage.setItem(key(),JSON.stringify(data));$('saveBtn').textContent='✓ נשמר';setTimeout(()=>$('saveBtn').textContent='שמור תוכנית',1200);refreshJournal()}
+function loadByStorageKey(storageKey){const raw=localStorage.getItem(storageKey);if(!raw)return false;let o;try{o=JSON.parse(raw)}catch{return false}ids.forEach(id=>{const el=$(id);if(o[id]===undefined)return;if(el.type==='checkbox')el.checked=!!o[id];else el.value=o[id]});if(o.htfSmt){const r=document.querySelector(`input[name="htfSmt"][value="${o.htfSmt}"]`);if(r)r.checked=true}else{document.querySelectorAll('input[name="htfSmt"]').forEach(x=>x.checked=false)}locked=!!o.locked;applyLock();validate();return true}
+function load(){return loadByStorageKey(key())}
+function applyLock(){document.getElementById('formArea').classList.toggle('locked',locked);$('lockBanner').classList.toggle('show',locked);$('lockBtn').disabled=locked;$('saveBtn').disabled=locked}
+function lockPlan(){if(locked)return;const status=validate();const snap=snapshot();snap.locked=true;snap.lockedAt=new Date().toISOString();snap.savedAt=snap.lockedAt;snap.statusAtSave=status;localStorage.setItem(key()+':snapshot',JSON.stringify(snap));localStorage.setItem(key(),JSON.stringify(snap));locked=true;applyLock();refreshJournal()}
+function saveDiaryReflection(){const storageKey=key();let base={};try{base=JSON.parse(localStorage.getItem(storageKey)||'{}')}catch{base={}};if(!base.date)base={...snapshot(),...base};['dayOutcome','dayPnl','disciplineScore','journalReflection','journalLesson'].forEach(id=>base[id]=$(id).value);base.date=$('date').value||isoIsraelDate();base.account=$('account').value||'default';base.asset=$('asset').value;base.locked=locked||!!base.locked;base.statusAtSave=base.statusAtSave||validate();base.savedAt=new Date().toISOString();localStorage.setItem(storageKey,JSON.stringify(base));$('journalSavedNote').textContent='✓ הסיכום נשמר ביומן';setTimeout(()=>$('journalSavedNote').textContent='',1800);refreshJournal();if(selectedJournalDate===base.date)showJournalDay(base.date)}
+function getAllPlans(){const out=[];for(let i=0;i<localStorage.length;i++){const storageKey=localStorage.key(i);if(!storageKey||!storageKey.startsWith('trading-plan:')||storageKey.endsWith(':snapshot'))continue;try{const data=JSON.parse(localStorage.getItem(storageKey));if(!data||!data.date)continue;out.push({storageKey,data})}catch{}}return out.sort((a,b)=>(b.data.date||'').localeCompare(a.data.date||'')||(b.data.savedAt||'').localeCompare(a.data.savedAt||''))}
+function effectiveStatus(d){return d.statusAtSave||(d.noTradeReason?'NO TRADE':d.locked?'LOCKED':'SAVED')}
+function esc(v){return String(v??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]))}
+function switchView(view){const isJournal=view==='journal';$('planView').classList.toggle('active',!isJournal);$('journalView').classList.toggle('active',isJournal);$('planTab').classList.toggle('active',!isJournal);$('journalTab').classList.toggle('active',isJournal);if(isJournal){if(!journalMonth){const d=new Date(`${isoIsraelDate()}T12:00:00`);journalMonth=new Date(d.getFullYear(),d.getMonth(),1)}renderJournal()}}
+function refreshJournal(){const plans=getAllPlans();$('journalCount').textContent=new Set(plans.map(x=>x.data.date)).size;if($('journalView').classList.contains('active'))renderJournal()}
+function monthIso(y,m,d){return `${y}-${String(m+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`}
+function formatHebrewDate(iso,withWeekday=true){if(!iso)return '';const d=new Date(`${iso}T12:00:00`);return new Intl.DateTimeFormat('he-IL',{weekday:withWeekday?'long':undefined,day:'numeric',month:'long',year:'numeric'}).format(d)}
+function renderJournal(){if(!journalMonth)return;const y=journalMonth.getFullYear(),m=journalMonth.getMonth();$('journalMonthTitle').textContent=new Intl.DateTimeFormat('he-IL',{month:'long',year:'numeric'}).format(journalMonth);const weekdays=['א׳','ב׳','ג׳','ד׳','ה׳','ו׳','שבת'];$('journalWeekdays').innerHTML=weekdays.map(x=>`<div class="weekday">${x}</div>`).join('');const all=getAllPlans();const monthPrefix=`${y}-${String(m+1).padStart(2,'0')}`;const plans=all.filter(x=>(x.data.date||'').startsWith(monthPrefix));const byDate={};plans.forEach(x=>(byDate[x.data.date]||(byDate[x.data.date]=[])).push(x));const daysInMonth=new Date(y,m+1,0).getDate(),firstDay=new Date(y,m,1).getDay();let html='';for(let i=0;i<firstDay;i++)html+='<div class="calendar-day empty"></div>';for(let day=1;day<=daysInMonth;day++){const iso=monthIso(y,m,day),entries=byDate[iso]||[],today=iso===isoIsraelDate();const chips=entries.slice(0,3).map(({data})=>{const st=effectiveStatus(data),cls=statusClass(st);return `<div class="journal-chip ${cls}"><span class="status-dot"></span>${esc(data.asset||'—')} · ${esc(st)}</div>`}).join('');html+=`<div class="calendar-day ${entries.length?'has-entry':''} ${today?'today':''}" data-journal-date="${iso}"><div class="day-top"><span class="day-num">${day}</span>${entries.length?`<span class="entry-count">${entries.length} רשומות</span>`:''}</div>${chips}${entries.length>3?`<div class="more-entries">+${entries.length-3} נוספות</div>`:''}</div>`}const trailing=(7-((firstDay+daysInMonth)%7))%7;for(let i=0;i<trailing;i++)html+='<div class="calendar-day empty"></div>';$('journalCalendar').innerHTML=html;$('journalCalendar').querySelectorAll('[data-journal-date]').forEach(el=>el.addEventListener('click',()=>showJournalDay(el.dataset.journalDate)));const uniqueDays=new Set(plans.map(x=>x.data.date)).size;const valid=plans.filter(x=>effectiveStatus(x.data)==='VALID').length;const noTrade=plans.filter(x=>['NO TRADE','INVALID'].includes(effectiveStatus(x.data))).length;const discipline=plans.map(x=>parseFloat(x.data.disciplineScore)).filter(Number.isFinite);const avg=discipline.length?(discipline.reduce((a,b)=>a+b,0)/discipline.length).toFixed(1):'—';$('journalStats').innerHTML=[['ימים מתועדים',uniqueDays],['תוכניות',plans.length],['Setup Valid',valid],['משמעת ממוצעת',avg]].map(([a,b])=>`<div class="metric"><span>${a}</span><strong>${b}</strong></div>`).join('');if(selectedJournalDate&&selectedJournalDate.startsWith(monthPrefix))showJournalDay(selectedJournalDate,false)}
+function showJournalDay(date,rerenderCalendar=true){selectedJournalDate=date;const entries=getAllPlans().filter(x=>x.data.date===date);if(!entries.length){$('journalDetail').innerHTML=`<div class="section-head"><h3>${esc(formatHebrewDate(date))}</h3><span class="badge">אין רשומות</span></div><div class="journal-empty">לא נשמרה תוכנית ביום הזה.</div>`;return}let body=`<div class="section-head"><div><div class="small">יומן יומי</div><h3 style="margin:2px 0">${esc(formatHebrewDate(date))}</h3></div><span class="badge green">${entries.length} ${entries.length===1?'רשומה':'רשומות'}</span></div>`;entries.forEach(({storageKey,data})=>{const st=effectiveStatus(data),cls=statusClass(st);const pnl=data.dayPnl!==undefined&&data.dayPnl!==''?`$${esc(data.dayPnl)}`:'—';body+=`<div class="diary-record"><div class="diary-record-head"><div><h4>${esc(data.asset||'—')} · ${esc(data.account||'default')}</h4><div class="diary-meta">Bias: ${esc(data.dailyBias||'—')} · Pricing: ${esc((()=>{const t=parseFloat(data.tdo),c=parseFloat(data.currentPrice);return Number.isFinite(t)&&Number.isFinite(c)?(c>t?'Premium':c<t?'Discount':'At Open'):'—'})())}</div></div><span class="badge ${cls==='valid'?'green':cls==='wait'?'orange':cls==='invalid'?'red':''}">${esc(st)}</span></div><div class="summary" style="margin-top:10px"><div class="metric"><span>מצב מנטלי</span><strong>${esc(data.mental||'—')}</strong></div><div class="metric"><span>תוצאה</span><strong>${esc(data.dayOutcome||'—')}</strong></div><div class="metric"><span>P&amp;L</span><strong>${pnl}</strong></div><div class="metric"><span>משמעת</span><strong>${esc(data.disciplineScore||'—')}${data.disciplineScore?'/5':''}</strong></div><div class="metric"><span>M15 SMT</span><strong>${esc(smtDir(data.smt1)||'—')}</strong></div><div class="metric"><span>M5 SMT</span><strong>${esc(smtDir(data.smt2)||'—')}</strong></div></div>${data.goal?`<div class="diary-text"><b>מטרה:</b> ${esc(data.goal)}</div>`:''}${data.journalReflection?`<div class="diary-text"><b>סיכום יום:</b> ${esc(data.journalReflection)}</div>`:''}${data.journalLesson?`<div class="diary-text"><b>לקח למחר:</b> ${esc(data.journalLesson)}</div>`:''}<div class="detail-actions"><button class="mini-btn open-plan" data-storage-key="${esc(storageKey)}">פתח תוכנית מלאה</button></div></div>`});$('journalDetail').innerHTML=body;$('journalDetail').querySelectorAll('.open-plan').forEach(btn=>btn.addEventListener('click',()=>{const storageKey=btn.dataset.storageKey;if(loadByStorageKey(storageKey)){switchView('plan');window.scrollTo({top:0,behavior:'smooth'})}}))}
+function resetPlan(){if(!confirm('לאפס את הטופס הנוכחי? התוכנית השמורה לא תימחק.'))return;locked=false;ids.forEach(id=>{const el=$(id);if(el.type==='checkbox')el.checked=false;else if(id==='date')el.value=isoIsraelDate();else if(id==='asset')el.value='NQ';else el.value=''});document.querySelectorAll('input[name="htfSmt"]').forEach(x=>x.checked=false);applyLock();validate()}
+function markNoTrade(){if(!$('noTradeReason').value){$('noTradeReason').focus();alert('בחר קודם סיבת NO TRADE.');return}save();validate();refreshJournal()}
+ids.forEach(id=>$(id).addEventListener('input',validate));document.querySelectorAll('input[name="htfSmt"]').forEach(x=>x.addEventListener('change',validate));['date','account','asset'].forEach(id=>$(id).addEventListener('change',load));$('saveBtn').addEventListener('click',save);$('lockBtn').addEventListener('click',lockPlan);$('resetBtn').addEventListener('click',resetPlan);$('noTradeBtn').addEventListener('click',markNoTrade);$('journalSaveBtn').addEventListener('click',saveDiaryReflection);
+$('planTab').addEventListener('click',()=>switchView('plan'));$('journalTab').addEventListener('click',()=>switchView('journal'));$('prevMonthBtn').addEventListener('click',()=>{journalMonth=new Date(journalMonth.getFullYear(),journalMonth.getMonth()-1,1);selectedJournalDate='';renderJournal()});$('nextMonthBtn').addEventListener('click',()=>{journalMonth=new Date(journalMonth.getFullYear(),journalMonth.getMonth()+1,1);selectedJournalDate='';renderJournal()});$('todayMonthBtn').addEventListener('click',()=>{const d=new Date(`${isoIsraelDate()}T12:00:00`);journalMonth=new Date(d.getFullYear(),d.getMonth(),1);selectedJournalDate=isoIsraelDate();renderJournal();showJournalDay(selectedJournalDate,false)});
+$('date').value=isoIsraelDate();const initDate=new Date(`${isoIsraelDate()}T12:00:00`);journalMonth=new Date(initDate.getFullYear(),initDate.getMonth(),1);setClock();setInterval(setClock,1000);load();validate();refreshJournal();
+</script>
+</body>
+</html>
